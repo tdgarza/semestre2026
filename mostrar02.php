@@ -45,6 +45,10 @@
 tr:nth-child(odd) {
     background-color: #6272a4;
 }
+img{
+    width: 100px;
+    height: 100px;
+}
     </style>
     <h1>Aqui voy a mostrar mi tabla</h1>
     <h3>Tomas Garza</h3>
