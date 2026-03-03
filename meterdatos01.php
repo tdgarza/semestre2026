@@ -81,16 +81,17 @@
     opacity: 0.3;
     }
     table{
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-        font-size: 10px;
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 10px;
         }
         th, td {
         padding: 10px;
         text-align: center;
         border-bottom: 1px solid var(--color-extra);
         }
+
         th {
         background-color: var(--color-de-botones);
         color: #282a36;
@@ -100,9 +101,10 @@
         background-color: var(--color-de-letras);
     }
 
-    tr:nth-child(odd) {
+tr:nth-child(odd) {
     background-color: #6272a4;
-    }
+}
+   
     </style>
 <h2>Introduce los datos:</h2>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id="formulario">
@@ -122,12 +124,10 @@
     <input type="text" name="sexo" required><br>
     <label for="debilidad">Debilidad:</label>
     <input type="text" name="debilidad" required><br>
-    
     <label for="creation">Fecha de Creación:</label>
     <input type="date" name="creation" required><br>
     <label for="biografia">Biografia:</label>
     <textarea name="biografia" required></textarea><br>
-
      <!-- Botón para enviar el formulario -->
     <input type="submit" value="Guardar Datos">
     </form>
@@ -164,33 +164,27 @@
         }
         }
 ?>
-
-<hr>
-
-<h2>Personajes registrados</h2>
-
-<?php
-// Consulta para traer TODOS los personajes
-$sql_select = "SELECT * FROM personajes";
-$resultado = $conexion->query($sql_select);
-
-if ($resultado->num_rows > 0) {
-    echo "<table border='1' cellpadding='8' cellspacing='0' style='width:100%; background:#000; color:#fff;'>";
-    echo "<tr style='background:yellow; color:black;'>
-            <th>ID</th>
-            <th>Nombre real</th>
-            <th>Personaje</th>
-            <th>Altura</th>
-            <th>Peso</th>
-            <th>Poderes</th>
-            <th>Sexo</th>
-            <th>Debilidad</th>
-            <th>Fecha creación</th>
-            <th>Biografía</th>
-          </tr>";
-
-    while ($fila = $resultado->fetch_assoc()) {
-        echo "<tr>
+    <?php
+        //Voy a meter los datos del sql para sacar los datos
+        $sql_mostrar ="SELECT * FROM personajes";
+        $resultado = $conexion->query($sql_mostrar);
+         
+        if($resultado->num_rows >0){
+                echo "<table>";
+                echo "<tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Personaje</th>
+                <th>Altura</th>
+                <th>Peso</th>
+                <th>Poderes</th>
+                <th>Sexo</th>
+                <th>Debilidad</th>
+                <th>Creacion</th>
+                <th>Biografia</th>
+                </tr>";
+                while($fila = $resultado->fetch_assoc()){
+                     echo "<tr>
                 <td>{$fila['id']}</td>
                 <td>{$fila['nombrereal']}</td>
                 <td>{$fila['personaje']}</td>
@@ -203,11 +197,10 @@ if ($resultado->num_rows > 0) {
                 <td>{$fila['biografia']}</td>
               </tr>";
     }
-
-    echo "</table>";
-} else {
-    echo "<p>No hay personajes registrados.</p>";
-}
-?>
+                echo "</table>";
+                 }else{
+                echo "No se encontraron registros en la base de datos";
+            }
+    ?>
 </body>
 </html>
