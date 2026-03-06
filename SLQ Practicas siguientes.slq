@@ -1,0 +1,185 @@
+¡Claro que sí! Aquí tienes los dos ejemplos ampliados. He añadido **10 registros** (datos) para cada tabla y he colocado un comentario (`--`) explicando **línea por línea** exactamente qué hace cada instrucción de código. 
+
+### Ejemplo 1: Plataforma de Cine (Directores, Películas y Actores)
+
+```sql
+-- 1. CREACIÓN DE LA ESTRUCTURA (TABLAS) PARA EL CINE
+
+CREATE TABLE Directores ( -- Crea una nueva tabla llamada 'Directores' en la base de datos.
+    DirectorID INT AUTO_INCREMENT PRIMARY KEY, -- Crea una columna de números enteros (INT) que sube de 1 en 1 automáticamente, siendo el identificador único.
+    Nombre VARCHAR(100) NOT NULL, -- Crea una columna de texto ('Nombre') de hasta 100 letras; 'NOT NULL' exige que siempre se llene este dato.
+    Nacionalidad VARCHAR(50), -- Crea una columna de texto ('Nacionalidad') de hasta 50 letras para el país de origen (opcional).
+    FechaNacimiento DATE -- Crea una columna ('FechaNacimiento') especializada en guardar fechas (Año-Mes-Día).
+); -- Cierra la instrucción de creación de la tabla 'Directores'.
+
+CREATE TABLE Actores ( -- Crea una nueva tabla llamada 'Actores'.
+    ActorID INT AUTO_INCREMENT PRIMARY KEY, -- Crea el identificador numérico único y automático para cada actor.
+    Nombre VARCHAR(100) NOT NULL, -- Crea la columna para el nombre del actor, obligatoria y de hasta 100 caracteres.
+    PremioOscar BOOLEAN DEFAULT FALSE -- Crea una columna de verdadero/falso (BOOLEAN) para saber si tiene un Oscar; por defecto es Falso.
+); -- Cierra la instrucción de creación de la tabla 'Actores'.
+
+CREATE TABLE Peliculas ( -- Crea una nueva tabla llamada 'Peliculas'.
+    PeliculaID INT AUTO_INCREMENT PRIMARY KEY, -- Crea el identificador numérico único y automático para cada película.
+    Titulo VARCHAR(150) NOT NULL, -- Crea una columna para el título de la película, obligatoria, de hasta 150 caracteres.
+    AnioLanzamiento YEAR, -- Crea una columna para almacenar específicamente un año (como 1994 o 2001).
+    DirectorID INT, -- Crea una columna numérica que guardará el ID del director que hizo esta película.
+    FOREIGN KEY (DirectorID) REFERENCES Directores(DirectorID) -- Declara que 'DirectorID' es una Clave Foránea que apunta y exige que exista ese ID en la tabla 'Directores'.
+); -- Cierra la instrucción de creación de la tabla 'Peliculas'.
+
+CREATE TABLE PeliculaActor ( -- Crea la tabla puente o intermedia para conectar múltiples actores con múltiples películas.
+    PeliculaID INT, -- Crea una columna para guardar el ID de la película.
+    ActorID INT, -- Crea una columna para guardar el ID del actor que actúa en esa película.
+    Personaje VARCHAR(100), -- Crea una columna de texto para anotar qué personaje histórico o ficticio interpretó el actor.
+    FOREIGN KEY (PeliculaID) REFERENCES Peliculas(PeliculaID), -- Obliga a que el 'PeliculaID' exista previamente en la tabla 'Peliculas'.
+    FOREIGN KEY (ActorID) REFERENCES Actores(ActorID), -- Obliga a que el 'ActorID' exista previamente en la tabla 'Actores'.
+    PRIMARY KEY (PeliculaID, ActorID) -- Define que la combinación de Película+Actor no se puede repetir (un actor no puede actuar dos veces igual en la misma película).
+); -- Cierra la instrucción de creación de la tabla puente.
+
+-- 2. INSERCIÓN DE 10 DATOS EN CADA TABLA
+
+-- Insertamos 10 directores emblemáticos
+INSERT INTO Directores (Nombre, Nacionalidad, FechaNacimiento) VALUES -- Instrucción para añadir múltiples filas a la tabla 'Directores'.
+    ('Christopher Nolan', 'Británica', '1970-07-30'), -- Inserta el director 1 con sus respectivos datos.
+    ('Quentin Tarantino', 'Estadounidense', '1963-03-27'), -- Inserta el director 2.
+    ('Martin Scorsese', 'Estadounidense', '1942-11-17'), -- Inserta el director 3.
+    ('Steven Spielberg', 'Estadounidense', '1946-12-18'), -- Inserta el director 4.
+    ('Francis Ford Coppola', 'Estadounidense', '1939-04-07'), -- Inserta el director 5.
+    ('Stanley Kubrick', 'Estadounidense', '1928-07-26'), -- Inserta el director 6.
+    ('Alfred Hitchcock', 'Británica', '1899-08-13'), -- Inserta el director 7.
+    ('James Cameron', 'Canadiense', '1954-08-16'), -- Inserta el director 8.
+    ('Peter Jackson', 'Neozelandesa', '1961-10-31'), -- Inserta el director 9.
+    ('David Fincher', 'Estadounidense', '1962-08-28'); -- Inserta el director 10 y finaliza con el punto y coma.
+
+-- Insertamos 10 actores legendarios
+INSERT INTO Actores (Nombre, PremioOscar) VALUES -- Instrucción para añadir múltiples filas a la tabla 'Actores'.
+    ('Leonardo DiCaprio', TRUE), -- Inserta al actor 1 y marca que SÍ tiene un premio Oscar (TRUE).
+    ('Brad Pitt', TRUE), -- Inserta al actor 2.
+    ('Robert De Niro', TRUE), -- Inserta al actor 3.
+    ('Tom Hanks', TRUE), -- Inserta al actor 4.
+    ('Al Pacino', TRUE), -- Inserta al actor 5.
+    ('Jack Nicholson', TRUE), -- Inserta al actor 6.
+    ('Marlon Brando', TRUE), -- Inserta al actor 7.
+    ('Morgan Freeman', TRUE), -- Inserta al actor 8.
+    ('Christian Bale', TRUE), -- Inserta al actor 9.
+    ('Samuel L. Jackson', FALSE); -- Inserta al actor 10 indicando que NO tiene un Oscar (FALSE).
+
+-- Insertamos 10 películas famosas asignándolas a sus directores
+INSERT INTO Peliculas (Titulo, AnioLanzamiento, DirectorID) VALUES -- Instrucción para añadir filas a la tabla 'Peliculas'.
+    ('Inception', 2010, 1), -- Inserta la película 1 y la asigna al Director 1 (Nolan).
+    ('Pulp Fiction', 1994, 2), -- Inserta la película 2 y la asigna al Director 2 (Tarantino).
+    ('Goodfellas', 1990, 3), -- Inserta la película 3 y la asigna al Director 3 (Scorsese).
+    ('Jurassic Park', 1993, 4), -- Inserta la película 4 y la asigna al Director 4 (Spielberg).
+    ('The Godfather', 1972, 5), -- Inserta la película 5 y la asigna al Director 5 (Coppola).
+    ('The Shining', 1980, 6), -- Inserta la película 6 y la asigna al Director 6 (Kubrick).
+    ('Psycho', 1960, 7), -- Inserta la película 7 y la asigna al Director 7 (Hitchcock).
+    ('Titanic', 1997, 8), -- Inserta la película 8 y la asigna al Director 8 (Cameron).
+    ('The Lord of the Rings', 2001, 9), -- Inserta la película 9 y la asigna al Director 9 (Jackson).
+    ('Fight Club', 1999, 10); -- Inserta la película 10 y la asigna al Director 10 (Fincher).
+
+-- Insertamos 10 relaciones (Qué actor sale en qué película y cuál es su rol)
+INSERT INTO PeliculaActor (PeliculaID, ActorID, Personaje) VALUES -- Instrucción para añadir filas a la tabla puente 'PeliculaActor'.
+    (1, 1, 'Cobb'), -- Vincula a la Película 1 ('Inception') con el Actor 1 ('DiCaprio') bajo el rol de 'Cobb'.
+    (2, 10, 'Jules Winnfield'), -- Vincula Película 2 ('Pulp Fiction') con Actor 10 ('Samuel L. Jackson').
+    (3, 3, 'Jimmy Conway'), -- Vincula Película 3 ('Goodfellas') con Actor 3 ('De Niro').
+    (4, 10, 'Ray Arnold'), -- Vincula Película 4 ('Jurassic Park') con Actor 10 ('Samuel L. Jackson').
+    (5, 5, 'Michael Corleone'), -- Vincula Película 5 ('The Godfather') con Actor 5 ('Pacino').
+    (5, 7, 'Vito Corleone'), -- Vincula Película 5 ('The Godfather') con Actor 7 ('Brando'); dos actores en la misma peli.
+    (6, 6, 'Jack Torrance'), -- Vincula Película 6 ('The Shining') con Actor 6 ('Nicholson').
+    (8, 1, 'Jack Dawson'), -- Vincula Película 8 ('Titanic') con Actor 1 ('DiCaprio').
+    (10, 2, 'Tyler Durden'), -- Vincula Película 10 ('Fight Club') con Actor 2 ('Pitt').
+    (1, 2, 'Colaborador Ficticio'); -- Agregamos una relación extra ficticia (Actor 2 en Película 1) para sumar los 10 registros.
+```
+
+---
+
+### Ejemplo 2: Sistema Escolar (Profesores, Cursos y Estudiantes)
+
+```sql
+-- 1. CREACIÓN DE LA ESTRUCTURA (TABLAS) PARA LA ESCUELA
+
+CREATE TABLE Profesores ( -- Inicia la creación de la tabla para almacenar la plantilla de profesores.
+    ProfesorID INT AUTO_INCREMENT PRIMARY KEY, -- Define un número automático, incrementable e irrepetible como código del profesor.
+    Nombre VARCHAR(100) NOT NULL, -- Define una columna obligatoria para guardar el nombre completo del profesor (hasta 100 caracteres).
+    Especialidad VARCHAR(100) -- Define una columna opcional para detallar la rama de conocimiento del profesor (hasta 100 caracteres).
+); -- Finaliza la creación de la tabla de profesores.
+
+CREATE TABLE Estudiantes ( -- Inicia la creación de la tabla que registrará a todos los alumnos inscritos.
+    EstudianteID INT AUTO_INCREMENT PRIMARY KEY, -- Define la matrícula única como un número que suma de uno en uno, siendo clave primaria.
+    Nombre VARCHAR(100) NOT NULL, -- Define el campo de nombre del estudiante como obligatorio y de máximo 100 letras.
+    AnioIngreso YEAR -- Define una columna exclusiva para guardar el año en el que el estudiante comenzó sus estudios.
+); -- Finaliza la creación de la tabla de estudiantes.
+
+CREATE TABLE Cursos ( -- Inicia la creación de la tabla que cataloga todas las materias o asignaturas impartidas.
+    CursoID INT AUTO_INCREMENT PRIMARY KEY, -- Asigna un código numérico único e inalterable para cada materia creada.
+    NombreCurso VARCHAR(100) NOT NULL, -- Define el nombre de la materia como un campo de texto restringido a 100 letras y obligatorio.
+    Creditos INT, -- Define una columna numérica entera para el valor en créditos o peso académico del curso.
+    ProfesorID INT, -- Define una columna numérica que guardará apuntada la referencia del profesor que dicta la materia.
+    FOREIGN KEY (ProfesorID) REFERENCES Profesores(ProfesorID) -- Instruye a la base de datos que este número debe existir sí o sí en la tabla 'Profesores'.
+); -- Finaliza la creación de la tabla de materias/cursos.
+
+CREATE TABLE Inscripciones ( -- Crea la tabla puente o auxiliar, ya que los estudiantes toman varios cursos y los cursos tienen muchos estudiantes.
+    InscripcionID INT AUTO_INCREMENT PRIMARY KEY, -- Crea un número de ticket o recibo de inscripción individual para cada registro generado.
+    EstudianteID INT, -- Guarda de manera cruzada la matrícula del estudiante que se va a relacionar.
+    CursoID INT, -- Guarda de manera cruzada el código del curso donde el estudiante se va a registrar.
+    FechaInscripcion DATE, -- Guarda exactamente el día en que se hizo el registro (Año-mes-día).
+    CalificacionFinal DECIMAL(3,1), -- Guarda un número con decimales (Ej. 9.5) para asentar la nota final al terminar el semestre.
+    FOREIGN KEY (EstudianteID) REFERENCES Estudiantes(EstudianteID), -- Protege la integridad exigiendo que el estudiante sea real y exista en la otra tabla.
+    FOREIGN KEY (CursoID) REFERENCES Cursos(CursoID) -- Protege la integridad validando que el curso sí sea un registro válido.
+); -- Finaliza la instrucción para crear esta tabla de cruce de datos.
+
+-- 2. INSERCIÓN DE 10 DATOS EN CADA TABLA
+
+-- Insertamos 10 Profesores (Científicos históricos repensados como maestros)
+INSERT INTO Profesores (Nombre, Especialidad) VALUES -- Instruye motor SQL para introducir 10 registros nuevos sobre maestros.
+    ('Alan Turing', 'Programación Avanzada'), -- Inserta el profesor 1 y su área experta.
+    ('Marie Curie', 'Física Cuántica'), -- Inserta la profesora 2.
+    ('Albert Einstein', 'Relatividad y Física'), -- Inserta el profesor 3.
+    ('Isaac Newton', 'Cálculo y Mecánica'), -- Inserta el profesor 4.
+    ('Nikola Tesla', 'Ingeniería Eléctrica'), -- Inserta el profesor 5.
+    ('Charles Darwin', 'Biología Evolutiva'), -- Inserta el profesor 6.
+    ('Ada Lovelace', 'Algoritmos'), -- Inserta la profesora 7.
+    ('Carl Sagan', 'Astronomía'), -- Inserta el profesor 8.
+    ('Luis Pasteur', 'Microbiología'), -- Inserta el profesor 9.
+    ('Galileo Galilei', 'Astronomía Clásica'); -- Inserta el profesor 10 y cierra el bloque de inserción.
+
+-- Insertamos 10 Estudiantes ficticios
+INSERT INTO Estudiantes (Nombre, AnioIngreso) VALUES -- Instruye introducir múltiples alumnos.
+    ('Ana Sophia Martínez', 2021), -- Carga los datos de la estudiante 1 y el año de entrada.
+    ('Carlos Ruiz', 2022), -- Carga los datos del estudiante 2.
+    ('María Fernández', 2023), -- Carga los datos de la estudiante 3.
+    ('Jorge Salinas', 2021), -- Carga los datos del estudiante 4.
+    ('Lucía Pineda', 2023), -- Carga los datos de la estudiante 5.
+    ('Miguel Torres', 2020), -- Carga los datos del estudiante 6.
+    ('Valentina Reyes', 2022), -- Carga los datos de la estudiante 7.
+    ('David Ochoa', 2021), -- Carga los datos del estudiante 8.
+    ('Fernanda Gil', 2023), -- Carga los datos de la estudiante 9.
+    ('Ricardo Gomez', 2021); -- Carga los datos del estudiante 10 y cierra el bloque de alumnos.
+
+-- Insertamos 10 Cursos diferentes vinculados a un profesor
+INSERT INTO Cursos (NombreCurso, Creditos, ProfesorID) VALUES -- Abre el comando para añadir clases.
+    ('Lógica de Sistemas', 8, 1), -- Asigna la clase 1 (8 créditos) al Profesor 1 (Turing).
+    ('Física I', 6, 4), -- Asigna la clase 2 (6 créditos) al Profesor 4 (Newton).
+    ('Circuitos', 7, 5), -- Asigna la clase 3 (7 créditos) al Profesor 5 (Tesla).
+    ('Astrofísica Aplicada', 9, 8), -- Asigna la clase 4 al Profesor 8.
+    ('Física II', 8, 3), -- Asigna la clase 5 al Profesor 3.
+    ('Biología Celular', 6, 6), -- Asigna la clase 6 al Profesor 6.
+    ('Laboratorio Químico', 7, 2), -- Asigna la clase 7 a la Profesora 2.
+    ('Algoritmia', 9, 7), -- Asigna la clase 8 a la Profesora 7.
+    ('Bacteriología', 6, 9), -- Asigna la clase 9 al Profesor 9.
+    ('Observación Espacial', 5, 10); -- Asigna la clase 10 al Profesor 10 y finaliza proceso.
+
+-- Insertamos 10 Inscripciones haciendo cruces matriculares 
+INSERT INTO Inscripciones (EstudianteID, CursoID, FechaInscripcion, CalificacionFinal) VALUES -- Instructivo para cargar el expediente de los alumnos.
+    (1, 1, '2023-08-01', 9.5), -- Estudiante 1 cursa Clase 1, inscrito tal fecha y saco de nota 9.5.
+    (2, 2, '2023-08-02', 8.0), -- Estudiante 2 cursa Clase 2 con nota final 8.0.
+    (3, 3, '2023-08-03', NULL), -- Estudiante 3 cursa Clase 3, aún sin nota (NULL significa dato vacío o en curso).
+    (4, 4, '2023-08-04', 10.0), -- Estudiante 4 cursa Clase 4 de Astrofísica, saca calificación perfecta.
+    (5, 5, '2023-08-05', 7.5), -- Estudiante 5 cursa Clase 5, calificación regular.
+    (6, 6, '2023-08-06', NULL), -- Estudiante 6 cursa Clase 6, curso pendiente.
+    (7, 7, '2023-08-07', 9.0), -- Estudiante 7 cursa Clase 7 con buena nota de 9.0.
+    (8, 8, '2023-08-08', 8.5), -- Estudiante 8 está tomado Programación.
+    (9, 9, '2023-08-09', NULL), -- Estudiante 9 sigue en curso de Bacteriología.
+    (10, 10, '2023-08-10', 9.8); -- Estudiante 10 curza observación espacial con nota 9.8 y se termina de cargar.
+```
+
+Espero que con estos comentarios exhaustivos cada elemento del código SQL sea más fácil de interpretar de principio a fin. ¡Dime si quieres que profundicemos en alguna línea específica!

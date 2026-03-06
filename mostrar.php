@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <!--Estos son los codigos de las letras-->
+    <link href="https://fonts.cdnfonts.com/css/black-hoops" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/neon-club-music" rel="stylesheet">
+    <!--Estos son las "librerias" del Bootstrap-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>         
+    <title>Primera Pagina</title>
 </head>
 <body>
     <style>
@@ -45,7 +53,48 @@
 tr:nth-child(odd) {
     background-color: #6272a4;
 }
+img{
+    width: 200px;
+    height: auto;
+}
     </style>
+
+    <nav class="navbar navbar-light" style="background-color: #9bc6e5;">
+            <div class="container">
+                <a class="navbar-brand" href="index.html" style="color: black; font-family: 'La unica', sans-serif;">Inicio</a>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Unidad 1</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDripdownMenuLink">
+                                <a class="dropdown-item" href="mostrar.php">Practica 1</a><br>
+                                <a class="dropdown-item" href="tomas02.php">Calculadora</a><br>
+                                <a class="dropdown-item" href="tomas03.php">Tienda parte 1</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Unidad 2</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDripdownMenuLink">
+                                <a class="dropdown-item" href="#">Perfil</a><br>
+                                <a class="dropdown-item" href="#">Calculadora</a><br>
+                                <a class="dropdown-item" href="#">Tienda parte 1</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Unidad 3</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDripdownMenuLink">
+                                <a class="dropdown-item" href="#">Perfil</a><br>
+                                <a class="dropdown-item" href="#">Calculadora</a><br>
+                                <a class="dropdown-item" href="#">Tienda parte 1</a>
+                            </div>
+                        </li>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </nav>
+</div>
     <h1>Aqui voy a mostrar mi tabla</h1>
     <h3>Tomas Garza</h3>
 
@@ -63,9 +112,31 @@ tr:nth-child(odd) {
 
     if($resultado->num_rows >0){
         echo "<table>";
-        echo "<tr><th>ID</th><th>Nombre</th><th>Personaje</th><th>Altura</th><th>Peso</th><th>Poderes</th><th>Sexo</th><th>Debilidad</th><th>Creacion</th><th>Biografia</th></tr>";
+        echo "<tr><th>ID</th><th>Nombre</th><th>Personaje</th><th>Altura</th><th>Peso</th><th>Poderes</th><th>Sexo</th><th>Debilidad</th><th>Creacion</th><th>Biografia</th><th>Imagen</th></tr>";
+    
+        //con el while siguiente, va a darle vueltas al codigo de la base de datos para obtener todos los resultados posibles, la parte de "$" me dice que declaro la variable en php, y el nombre entre comillas seran los encabezados de la tabla del mySQL. como es un codigo "hibrido" lo que ponga entre comillas con el td, th, tr, sera la mezcla entre php y el html
+
         while($row = $resultado->fetch_assoc()){
-             echo "<tr><td>" . $row["id"] . "</td><td>" . $row["nombre"] . "</td><td>" . $row["personaje"] . "</td><td>" . $row["altura"] ."</td><td>" . $row["peso"] . "</td><td>" . $row["poderes"] . "</td><td>" . $row["sexo"] . "</td><td>" . $row["debilidad"] . "</td><td>" . $row["creacion"] . "</td><td>" . $row["biografia"] . "</td></tr>";
+
+             echo "<tr>
+             <td>" . $row["id"] . "</td>
+             <td>" . $row["nombre"] . "</td>
+             <td>" . $row["personaje"] . "</td>
+             <td>" . $row["altura"] ."</td>
+             <td>" . $row["peso"] . "</td>
+             <td>" . $row["poderes"] . "</td>
+             <td>" . $row["sexo"] . "</td>
+             <td>" . $row["debilidad"] . "</td>
+             <td>" . $row["creacion"] . "</td>
+             <td>" . $row["biografia"] . "</td>
+             <td>"; //este td, abre la nueva columna para la imagen.
+             //este if solo va a comprobar si hay imagen o no, puede o no puede estar. pero le da la elegancia de que si no esta una imagen por cualquier motivo, solo pondra esa parte, igual pueden poner una URL con otra imagen que muestre que esta vacia la onda. 
+
+             if(!empty($row["imagen"])){
+                echo "<img src='data:image/jpeg;base64,".base64_encode($row["imagen"])."'>";
+             }else{
+                echo "Sin Imagen";
+             } echo "</td></tr>";
         }
         echo "</table>";
     }else{
