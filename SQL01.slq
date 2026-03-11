@@ -1,9 +1,3 @@
-¡Claro que sí! Este código es un script de **SQL** (Structured Query Language) que se utiliza para crear la estructura de una base de datos relacional y poblarla con información. En este caso, la base de datos está diseñada para almacenar información sobre personajes de cómics de Marvel, sus cómics y sus superpoderes.
-
-Aquí tienes una explicación detallada dividida en dos partes: **La estructura (Creación de tablas)** y **Los datos (Inserción de información)**.
-
----
-
 ### 1. Creación de la Estructura (CREATE TABLE)
 Esta parte define el "esqueleto" de tu base de datos. Se crean cinco tablas distintas:
 

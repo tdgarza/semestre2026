@@ -1,19 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--Estos son los codigos de las letras-->
-    <link href="https://fonts.cdnfonts.com/css/black-hoops" rel="stylesheet">
-    <link href="https://fonts.cdnfonts.com/css/neon-club-music" rel="stylesheet">
-    <!--Estos son las "librerias" del Bootstrap-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>         
-    <title>Primera Pagina</title>
-</head>
-<body>
+
     <style>
         :root{
             --color-de-fondo:#BFDBF7;
@@ -29,37 +14,20 @@
             font-family: 'NEON CLUB MUSIC', sans-serif;
             color: var(--color-extra);
             text-align: center;                                                                        
-        }  
+        }
         table{
-            width: 100%;
+            width: 80%;
             border-collapse: collapse;
             margin-top: 20px;
         }
         th, td {
         padding: 10px;
         text-align: center;
-        border-bottom: 1px solid var(--color-extra);
+        border-bottom: 1px solid --color-de-letras;
         }
-
-        th {
-        background-color: var(--color-de-botones);
-        color: #282a36;
-        }
-
-        tr:nth-child(even) {
-        background-color: var(--color-de-letras);
-    }
-
-tr:nth-child(odd) {
-    background-color: #6272a4;
-}
-img{
-    width: 200px;
-    height: auto;
-}
     </style>
 
-    <nav class="navbar navbar-light" style="background-color: #9bc6e5;">
+     <nav class="navbar navbar-light" style="background-color: #9bc6e5;">
             <div class="container">
                 <a class="navbar-brand" href="index.html" style="color: black; font-family: 'La unica', sans-serif;">Inicio</a>
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -67,9 +35,9 @@ img{
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Unidad 1</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDripdownMenuLink">
-                                <a class="dropdown-item" href="mostrar.php">Practica 1</a><br>
-                                <a class="dropdown-item" href="tomas02.php">Calculadora</a><br>
-                                <a class="dropdown-item" href="tomas03.php">Tienda parte 1</a>
+                                <a class="dropdown-item" href="mostrar.php">Mostrar Datos</a><br>
+                                <a class="dropdown-item" href="meterdatos.php">Meter Datos</a><br>
+                                
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -94,6 +62,7 @@ img{
         </div>
     </div>
     </nav>
+</div>
 </div>
     <h1>Aqui voy a mostrar mi tabla</h1>
     <h3>Tomas Garza</h3>

@@ -20,6 +20,7 @@
         $debilidad = $_POST['debilidad'];
         $creacion = $_POST['creacion'];
         $biografia = $_POST['biografia'];
+        
        
         $sql = "INSERT INTO personajes (id, nombrereal, personaje, altura, peso, poderes, sexo, debilidad, creation, biografia) VALUES ('$nombrereal', '$personaje', '$altura', '$peso', '$poderes', '$sexo', '$debilidad', '$creacion', '$biografia')";
     
