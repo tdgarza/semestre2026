@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +12,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>         
-    <title>Primera Pagina</title>
+    <title>Tomas Daniel Garza Moya</title>
 </head>
 <div>
     <style>
@@ -78,15 +79,80 @@
     </div>
     </nav>
 </div>
-     
-    <div class="jumbotron">
-        <h1 class="display-4">Bienvenidos!</h1>
-        <p class="lead">Esta será mi pagina principal para las practicas de la materia de Implementa Bases de Datos Relacionales en un Sistema de Información.</p>
-        <hr class="my-4">
-        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-        <p class="lead">
-            <a class="btn btn-primary btn-lg" href="#" role="button">Presioname </a>
-        </p>
-    </div>
+<body>
+    <style>
+          h1,h2{
+            font-family: 'NEON CLUB MUSIC', sans-serif;
+            color: var(--color-extra);
+            text-align: center;                                                                        
+        }
+        table{
+            width: 80%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid --color-de-letras;
+        }
+    </style>
+    <h1>Personajes de Marvel</h1>
+    <h2>Personajes</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Alias</th>
+            <th>Fecha de Creacion</th>
+            <th>Descripcion</th>
+            <th>Titulo del Comic</th>
+            <th>Nombre del Superpoder</th>
+        </tr>
+    
+    <?php
+    $username = "root";
+    $password = "";
+    $server = "localhost";
+    $database = "robin";
+    $conexion = new mysqli($server, $username, $password, $database);
+    if($conexion->connect_error){
+        die("Conexion fallida: " . $conexion->connect_error);
+    }
+    $sql ="SELECT
+p.personajeID,
+p.nombre AS nombre_personaje,
+p.alias,
+p.fechacreacion,
+p.descripcion,
+c.titulo,
+s.nombre AS nombre_superpoder
+FROM personajes p
+LEFT JOIN personajecomic pc ON p.personajeID = pc.personajeID
+LEFT JOIN comics c on pc.comicID = c.comicID
+LEFT JOIN personajesuperpoder ps ON p.personajeID = ps.personajeID
+LEFT JOIN superpoderes s ON ps.superpoderID = s.superpoderID";
+
+$result = $conexion->query($sql);
+
+if($result->num_rows >0){
+    while ($row = $result->fetch_assoc()){
+        echo "<tr>";
+        echo "<td>" . $row['personajeID'] . "</td>";
+        echo "<td>" . $row['nombre_personaje'] . "</td>";
+        echo "<td>" . $row['alias'] . "</td>";
+        echo "<td>" . $row['fechacreacion'] . "</td>";
+        echo "<td>" . $row['descripcion'] . "</td>";
+        echo "<td>" . $row['titulo'] . "</td>";
+        echo "<td>" . $row['nombre_superpoder'] . "</td>";
+        echo "</tr>";
+    }
+}else{
+    echo "<tr><td colspan='7'>No se encontraron personajes</td></tr>";
+}
+
+$conexion->close();
+?>
+    </table>
 </body>
 </html>

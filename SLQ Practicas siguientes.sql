@@ -1,8 +1,4 @@
-¡Claro que sí! Aquí tienes los dos ejemplos ampliados. He añadido **10 registros** (datos) para cada tabla y he colocado un comentario (`--`) explicando **línea por línea** exactamente qué hace cada instrucción de código. 
 
-### Ejemplo 1: Plataforma de Cine (Directores, Películas y Actores)
-
-```sql
 -- 1. CREACIÓN DE LA ESTRUCTURA (TABLAS) PARA EL CINE
 
 CREATE TABLE Directores ( -- Crea una nueva tabla llamada 'Directores' en la base de datos.

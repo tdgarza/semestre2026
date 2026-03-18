@@ -190,6 +190,27 @@
         }
 
         // Consulta SQL Avanzada usando GROUP_CONCAT para agrupar múltiples relaciones en una sola fila por personaje
+        /*¿Por qué se hizo así? (Los 4 pilares de esta consulta)
+1. Evitar la "Repetición de Filas" con GROUP_CONCAT
+Si hiciéramos un SELECT normal con JOIN, y Spider-Man tuviera 3 poderes, la base de datos nos devolvería 3 filas iguales de Spider-Man (una por cada poder).
+
+La solución: GROUP_CONCAT toma todos esos poderes y los "comprime" en una sola celda de texto separada por comas. Así, Spider-Man ocupa una sola fila en el resultado, facilitando mucho el diseño de las tarjetas en PHP.
+2. El uso de LEFT JOIN en lugar de JOIN normal
+Si usáramos un INNER JOIN (el normal), y un personaje no tuviera equipo o poderes registrados, ¡ese personaje desaparecería de la lista!
+
+La solución: LEFT JOIN le dice a la base de datos: "Tráeme al personaje aunque no tenga nada en la otra tabla (ponlo como NULL si es necesario)". Esto asegura que veamos a todos los héroes, tengan o no relaciones completas.
+3. El GROUP BY p.PersonajeID
+Esta es la instrucción que acompaña a GROUP_CONCAT. Le dice a MySQL: "Agrupa todo lo que encuentres, pero hazlo persona por persona". Sin esto, la consulta daría un error o mezclaría los poderes de todos los héroes en un solo bloque.
+
+4. La Subconsulta para los Rivales (Correlated Subquery)
+Esta es la parte más avanzada: (SELECT ... WHERE en.HeroeID = p.PersonajeID).
+
+El problema: La tabla Enemistades relaciona a un personaje de la tabla Personajes con otro personaje de la misma tabla.
+La solución: Creamos una "mini-consulta" dentro del SELECT que busca específicamente quién es el villano de ese héroe en particular en ese momento. Además, usamos CONCAT para juntar el nombre del rival con el motivo de la pelea entre paréntesis.
+Resumen del beneficio:
+Velocidad: Haces una sola petición al servidor de base de datos para traerlo TODO.
+Limpieza en PHP: En tu código PHP, no tienes que hacer bucles raros para limpiar datos duplicados; cada fila que recibes es un superhéroe listo para ser mostrado.
+Flexibilidad: Si añades 10 poderes más a Iron Man, la consulta seguirá funcionando igual de bien, solo que la celda de "Poderes" será más larga.*/
         $sql = "SELECT 
                     p.PersonajeID,
                     p.NombreReal,
