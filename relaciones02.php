@@ -35,6 +35,7 @@
             width: 80%;
             border-collapse: collapse;
             margin-top: 20px;
+            color: white;
         }
         th, td {
         padding: 10px;
@@ -87,66 +88,77 @@
             text-align: center;                                                                        
         }
         table{
-            width: 80%;
+            width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
         th, td {
         padding: 10px;
         text-align: center;
-        border-bottom: 1px solid --color-de-letras;
+        border-bottom: 1px solid var(--color-extra);
         }
+
+        th {
+        background-color: var(--color-de-botones);
+        color: #282a36;
+        }
+
+        tr:nth-child(even) {
+        background-color: var(--color-de-letras);
+    }
+
+tr:nth-child(odd) {
+    background-color: #6272a4;
+}
     </style>
-    <h1>Personajes de Marvel</h1>
-    <h2>Personajes</h2>
+    <h1>CINE</h1>
+    <h2>Peliculas</h2>
     <table>
         <tr>
             <th>ID</th>
-            <th>Nombre</th>
-            <th>Alias</th>
-            <th>Fecha de Creacion</th>
-            <th>Descripcion</th>
-            <th>Titulo del Comic</th>
-            <th>Nombre del Superpoder</th>
+            <th>Titulo</th>
+            <th>Años</th>
+            <th>Director</th>
+            <th>Actores</th>
+            <th>Personajes</th>
         </tr>
     
     <?php
     $username = "root";
     $password = "";
     $server = "localhost";
-    $database = "robin";
+    $database = "cine"; //<----aqui le cambio a mi base de datos ultima llamada cine
+
     $conexion = new mysqli($server, $username, $password, $database);
     if($conexion->connect_error){
         die("Conexion fallida: " . $conexion->connect_error);
     }
     $sql ="SELECT
-    p.personajeID AS personajeID,
-    p.nombre AS nombre,
-    p.alias AS alias, 
-    p.descripcion AS descripcion, 
-    p.fechacreacion AS fechacreacion,
-    c.comicID AS comicID,
-    c.titulo AS titulo,
-    s.superpoderID AS supersuperID,
-    s.nombre AS nombre_superpoder
-    FROM personajes p
-    LEFT JOIN personajecomic pc ON p.personajeID = pc.personajeID
-    LEFT JOIN comics c on pc.comicID = c.comicID
-    LEFT JOIN personajesuperpoder ps ON p.personajeID = ps.personajeID
-    LEFT JOIN superpoderes s ON ps.superpoderID = s.superpoderID";
+    p.PeliculaID,
+    p.Titulo,
+    p.AnioLanzamiento, 
+    d.Nombre AS Director, 
+   
+    GROUP_CONCAT(DISTINCT a.Nombre SEPARATOR ', ') AS Actores,
+    GROUP_CONCAT(DISTINCT pa.Personaje SEPARATOR ', ') AS Personajes
+    
+    FROM Peliculas p
+    LEFT JOIN Directores d ON p.DirectorID = d.DirectorID
+    LEFT JOIN PeliculaActor pa ON p.PeliculaID = pa.PeliculaID
+    LEFT JOIN Actores a ON pa.ActorID = a.ActorID
+    GROUP BY p.PeliculaID";
 
     $result = $conexion->query($sql);
 
     if($result->num_rows >0){
         while ($row = $result->fetch_assoc()){
             echo "<tr>";
-            echo "<td>" . $row['personajeID'] . "</td>";
-            echo "<td>" . $row['nombre'] . "</td>";
-            echo "<td>" . $row['alias'] . "</td>";
-            echo "<td>" . $row['fechacreacion'] . "</td>";
-            echo "<td>" . $row['descripcion'] . "</td>";
-            echo "<td>" . $row['titulo'] . "</td>";
-            echo "<td>" . $row['nombre_superpoder'] . "</td>";
+            echo "<td>" . $row['PeliculasID'] . "</td>";
+            echo "<td>" . $row['Titulo'] . "</td>";
+            echo "<td>" . $row['AnioLanzamiento'] . "</td>";
+            echo "<td>" . $row['Director'] . "</td>";
+            echo "<td>" . $row['Actores'] . "</td>";
+            echo "<td>" . $row['Personajes'] . "</td>";
             echo "</tr>";
         }
     }else{

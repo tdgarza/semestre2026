@@ -1,4 +1,4 @@
-
+  
 -- 1. CREACIÓN DE LA ESTRUCTURA (TABLAS) PARA EL CINE
 
 CREATE TABLE Directores ( -- Crea una nueva tabla llamada 'Directores' en la base de datos.
@@ -177,5 +177,3 @@ INSERT INTO Inscripciones (EstudianteID, CursoID, FechaInscripcion, Calificacion
     (9, 9, '2023-08-09', NULL), -- Estudiante 9 sigue en curso de Bacteriología.
     (10, 10, '2023-08-10', 9.8); -- Estudiante 10 curza observación espacial con nota 9.8 y se termina de cargar.
 ```
-
-Espero que con estos comentarios exhaustivos cada elemento del código SQL sea más fácil de interpretar de principio a fin. ¡Dime si quieres que profundicemos en alguna línea específica!
